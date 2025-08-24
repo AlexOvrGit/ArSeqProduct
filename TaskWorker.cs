@@ -4,7 +4,7 @@ namespace ArSeqProduct
 {
     internal partial class Program
     {
-        public static BigInteger TaskExe(int t, BigInteger m, Lock logLock)
+        public static BigInteger Worker(int t, BigInteger m, Lock logLock)
         {
             BigInteger result = m, s = Params.S, s2 = s * s, ds2 = 2 * s2, h = Params.H;
 
@@ -22,9 +22,9 @@ namespace ArSeqProduct
                 lock (logLock)
                 {
                     if (Params.R <= 0) break;
-                    Params.E += Params.D;
+                    Params.N += Params.D;
                     Params.R--;
-                    m = Params.E;
+                    m = Params.N;
                 }
                 result *= m;
             }

@@ -53,11 +53,10 @@ namespace ArSeqProduct
                 sb.AppendLine("No valid command line arguments.");
             if (Params.P <= 0) Params.P = 1;
             Console.WriteLine($" {Params.P} processors used out of {Params.pMax}");
-            if (Params.B < 0 || Params.E < Params.B)
-                sb.AppendLine("E must be > B > 0");
+            if (Params.A < 1 || Params.N < 1)
+                sb.AppendLine("A, N  must be > 0");
             if (Params.D < 0) sb.AppendLine("D must be > 0");
-            if (((Params.E - Params.B) % Params.D) != 0)
-                sb.AppendLine("(E - B) must be divisible by D.");
+             
             if (Params.T < 0 || Params.T > 60)
                 sb.AppendLine("T must be between 0 and 60 minutes.");
             return sb.ToString();
@@ -65,19 +64,36 @@ namespace ArSeqProduct
 
         public static int CalcParams()
         {
-            BigInteger p = Params.P, b = Params.B, e = Params.E, d = Params.D,
-                n = (e - b) / d + 1, r = 0;
+            BigInteger p = Params.P, a = Params.A, n = Params.N, d = Params.D, r = 0;
 
             Params.S = d * p;
-            Params.H = BigInteger.DivRem(n - p, p * 2, out r);
+            Params.H = BigInteger.DivRem(n+1 - p, p * 2, out r);
             Params.R = r;
             Console.WriteLine($"S={Params.S}, H={Params.H}, R={Params.R}");
             LogWrite($"S={Params.S}, H={Params.H}, R={Params.R}");
             if (p == 1 || (n < 5 * p)) return 1;
-            Params.E -= (r * d);
-            Console.WriteLine($"E={Params.E}");
-            LogWrite($"E={Params.E}");
+            Params.N -= (r * d);
+            Console.WriteLine($"N={Params.N}");
+            LogWrite($"N={Params.N}");
             return 0;
+        }
+ 
+        public static BigInteger BalancedMultiply(BigInteger[] w)
+        {
+            int len = w.Length, i, j;
+            if (len == 0) return BigInteger.One;
+            if (len == 1) return w[0];
+            while (len > 1)
+            {
+                i = len % 2; j = i;
+                while (i < len - 1)
+                {
+                    w[j] = w[i] * w[i + 1];
+                    j++; i += 2; 
+                }
+                len = j;
+            }
+            return w[0];
 
         }
     }

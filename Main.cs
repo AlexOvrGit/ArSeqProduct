@@ -25,13 +25,13 @@ namespace ArSeqProduct
             while (pass == 0 || !(string.IsNullOrEmpty(args)))
             {
                 if (pass == 0)
-                    args = "P=7,B = 1, D=1, E=10000;E=100000;T=1,D=1,E=1000000";
+                    args = " a= 1, d=1, n=10000;n=1000000;";
                 pass++;
 
                 var command = ParseCommand(args, out tail);
                 int p = Params.P, t = Params.T;
-                BigInteger b = Params.B, e = Params.E, d = Params.D, er = e;
-                Console.WriteLine($"Parameters set: b={b}, e={e}, d={d}, t={t}");
+                BigInteger a = Params.A, n = Params.N, d = Params.D, er = n;
+                Console.WriteLine($"Parameters set: a={a}, n={n}, d={d}, t={t}");
                 TimeRestart(t);
                 string error = ParamsError(command);
                 if (!(string.IsNullOrEmpty(error)))
@@ -41,12 +41,12 @@ namespace ArSeqProduct
                     args = tail;
                     continue;
                 }
-                BigInteger result = 1, m = b;
+                BigInteger result = 1, m = a;
                 if (CalcParams() == 1)
                 {
                     Console.WriteLine("Single-thread calculation");
 
-                    while (m <= e) { result *= m; m += d; }
+                    while (m <= n + 1) { result *= m; m += d; }
 
                     Console.WriteLine($"Result: {result}");
                     LogWrite($"Result: {result}");
@@ -54,7 +54,7 @@ namespace ArSeqProduct
                     continue;
                 }
                 Console.WriteLine("Multi-thread calculation");
-                m = b + p * Params.H * d;
+                m = a + p * Params.H * d;
                 Thread[] threads = new Thread[p];
                 BigInteger[] results = new BigInteger[p];
 
@@ -63,7 +63,7 @@ namespace ArSeqProduct
                 {
                     int index = i;
                     if (i > 0) m += d;
-                    result = TaskExe(index, m, logLock);
+                    result = Worker(index, m, logLock);
                     lock (logLock)
                     {
                         results[index] = result;
@@ -72,31 +72,39 @@ namespace ArSeqProduct
                 }
 
                 Console.WriteLine("All threads completed.");
+                lCountTime = sw.ElapsedMilliseconds;
+                Console.WriteLine(" Worker's Time = {0}ms", sw.ElapsedMilliseconds);
 
+                Console.WriteLine($"Multiply {results.Length} partial products together");
 
-
-                //               Console.WriteLine("---------------------");
-
-                // Multiply all partial products together
                 BigInteger total = 1;
                 foreach (var part in results) total *= part;
                 // { total *= part; Console.WriteLine($"\nPart RESULT: {part}"); }
+                Console.WriteLine("Multiplication {0} partial products Time = {1 }ms",
+                    results.Length, sw.ElapsedMilliseconds - lCountTime);
 
-                lCountTime = sw.ElapsedMilliseconds;
                 string sFormat = ((double)total < 1.0E30) ? "{0:N0}" : "{0:E8}";
-                Console.WriteLine("Product = " + sFormat, total);
-                                                                                                               Console.Write("Count Time = {0}ms", lCountTime);
+                //        Console.WriteLine("Product = " + sFormat, total);
+                lCountTime = sw.ElapsedMilliseconds;
 
-  //              Console.Write(", Output Time = {1}ms",
-  //                  sw.ElapsedMilliseconds - lCountTime);
+ 
+                Console.WriteLine($"BalancedMultiply {results.Length} partial products together");
+                total = BalancedMultiply(results);
+                //         Console.WriteLine("Product = " + sFormat, total);
+                Console.WriteLine("BalancedMultiply {0} partial products Time = {1}ms",
+                    results.Length, sw.ElapsedMilliseconds - lCountTime);
+
+                // Console.Write("Count Time = {0}ms", lCountTime);
+                //              Console.Write(", Output Time = {1}ms",
+                //                  sw.ElapsedMilliseconds - lCountTime);
                 Console.WriteLine();
 
-               //Console.WriteLine("--Simple check--");
-               //BigInteger check = 1;
-               //m = b;
-               //while (m <= er) { check *= m; m += d; }
-               //Console.WriteLine($"Check: {check}");
-               args = tail;
+                //Console.WriteLine("--Simple check--");
+                //BigInteger check = 1;
+                //m = a;
+                //while (m <= er) { check *= m; m += d; }
+                //Console.WriteLine($"Check: {check}");
+                args = tail;
                 Console.WriteLine("---------------------");
             }
             TimeStop();

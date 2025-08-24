@@ -12,10 +12,10 @@ namespace ArSeqProduct
         public static int P { get; set; } = pMax;
         // D – the difference (step) of the arithmetic sequence
         public static BigInteger D { get; set; } = BigInteger.One;
-        // B– the beginning of the arithmetic sequence
-        public static BigInteger B { get; set; } = BigInteger.One;
-        // E – the end of the arithmetic sequence; E > B; (E - B) mod D = 0.
-        public static BigInteger E { get; set; } = 1000;
+        // A– the beginning of the arithmetic sequence
+        public static BigInteger A { get; set; } = BigInteger.One;
+        // N – the number of the intervals in the sequence; N > 0; 
+        public static BigInteger N { get; set; } = 1000;
         // T - the interval in minutes to report a progress of the task
         public static int T { get; set; } = 1;
         // S – the straid S = D * P, where P is the number of the used processors. 
@@ -33,8 +33,8 @@ namespace ArSeqProduct
             {
                 case "p": P = int.Parse(value); break;
                 case "d": D = BigInteger.Parse(value); break;
-                case "b": B = BigInteger.Parse(value); break;
-                case "e": E = BigInteger.Parse(value); break;
+                case "a": A = BigInteger.Parse(value); break;
+                case "n": N = BigInteger.Parse(value); break;
                 case "t": T = int.Parse(value); break;
 
                 default: return false; // Key not recognized
