@@ -46,7 +46,7 @@ namespace ArSeqProduct
                 {
                     Console.WriteLine("Single-thread calculation");
 
-                    while (m <= n + 1) { result *= m; m += d; }
+                    while (m <= n) { result *= m; m += d; }
 
                     Console.WriteLine($"Result: {result}");
                     LogWrite($"Result: {result}");
@@ -75,35 +75,16 @@ namespace ArSeqProduct
                 lCountTime = sw.ElapsedMilliseconds;
                 Console.WriteLine(" Worker's Time = {0}ms", sw.ElapsedMilliseconds);
 
-                Console.WriteLine($"Multiply {results.Length} partial products together");
-
-                BigInteger total = 1;
-                foreach (var part in results) total *= part;
-                // { total *= part; Console.WriteLine($"\nPart RESULT: {part}"); }
-                Console.WriteLine("Multiplication {0} partial products Time = {1 }ms",
-                    results.Length, sw.ElapsedMilliseconds - lCountTime);
-
-                string sFormat = ((double)total < 1.0E30) ? "{0:N0}" : "{0:E8}";
-                //        Console.WriteLine("Product = " + sFormat, total);
-                lCountTime = sw.ElapsedMilliseconds;
-
- 
                 Console.WriteLine($"BalancedMultiply {results.Length} partial products together");
-                total = BalancedMultiply(results);
-                //         Console.WriteLine("Product = " + sFormat, total);
+                BigInteger total = BalancedMultiply(results);
                 Console.WriteLine("BalancedMultiply {0} partial products Time = {1}ms",
                     results.Length, sw.ElapsedMilliseconds - lCountTime);
-
-                // Console.Write("Count Time = {0}ms", lCountTime);
-                //              Console.Write(", Output Time = {1}ms",
-                //                  sw.ElapsedMilliseconds - lCountTime);
-                Console.WriteLine();
-
-                //Console.WriteLine("--Simple check--");
-                //BigInteger check = 1;
-                //m = a;
-                //while (m <= er) { check *= m; m += d; }
-                //Console.WriteLine($"Check: {check}");
+                lCountTime = sw.ElapsedMilliseconds;
+                string sFormat = ((double)total < 1.0E30) ? "{0:N0}" : "{0:E8}";
+                Console.Write("Product = " + sFormat, total);
+                Console.Write("Count Time = {0}ms", lCountTime);
+                Console.WriteLine(", Output Time = {0}ms",
+                  sw.ElapsedMilliseconds - lCountTime);
                 args = tail;
                 Console.WriteLine("---------------------");
             }

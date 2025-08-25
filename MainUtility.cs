@@ -67,11 +67,11 @@ namespace ArSeqProduct
             BigInteger p = Params.P, a = Params.A, n = Params.N, d = Params.D, r = 0;
 
             Params.S = d * p;
-            Params.H = BigInteger.DivRem(n+1 - p, p * 2, out r);
+            Params.H = BigInteger.DivRem(n - p, p * 2, out r);
             Params.R = r;
             Console.WriteLine($"S={Params.S}, H={Params.H}, R={Params.R}");
             LogWrite($"S={Params.S}, H={Params.H}, R={Params.R}");
-            if (p == 1 || (n < 5 * p)) return 1;
+            if (p == 1 || (n < 4 * p)) return 1;
             Params.N -= (r * d);
             Console.WriteLine($"N={Params.N}");
             LogWrite($"N={Params.N}");
