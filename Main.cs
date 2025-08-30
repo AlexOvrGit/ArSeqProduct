@@ -54,7 +54,7 @@ namespace ArSeqProduct
                     continue;
                 }
                 Console.WriteLine("Multi-thread calculation");
-                m = a + p * Params.H * d;
+                m = a + Params.S;
                 Thread[] threads = new Thread[p];
                 BigInteger[] results = new BigInteger[p];
 
