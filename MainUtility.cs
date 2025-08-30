@@ -64,18 +64,24 @@ namespace ArSeqProduct
 
         public static int CalcParams()
         {
-            BigInteger p = Params.P, a = Params.A, n = Params.N, d = Params.D, r = 0;
+            BigInteger n = Params.N, d = Params.D, r; // a = Params.A, o = Params.O;
+           int p = Params.P;
+           if (n < 3 * p) p = (int)n / 3; if (p < 1) p = 1;
 
-            Params.S = d * p;
-            Params.H = BigInteger.DivRem(n - p, p * 2, out r);
-            Params.R = r;
-            Console.WriteLine($"S={Params.S}, H={Params.H}, R={Params.R}");
-            LogWrite($"S={Params.S}, H={Params.H}, R={Params.R}");
-            if (p == 1 || (n < 4 * p)) return 1;
-            Params.N -= (r * d);
-            Console.WriteLine($"N={Params.N}");
-            LogWrite($"N={Params.N}");
-            return 0;
+           BigInteger h = BigInteger.DivRem(n - p, p * 2, out r);
+           BigInteger l = 2 * h + 1;
+        
+           Params.H = h;
+           Params.S = d * p;
+           Params.R = r;
+           Console.WriteLine($"S={Params.S}, H={Params.H}, R={Params.R}");
+           LogWrite($"S={Params.S}, H={Params.H}, R={Params.R}");
+           return p;
+           //if ((p == 1 || (n < 4 * p)) && o == 0) return 1;
+           //Params.N -= (r * d);
+           //Console.WriteLine($"N={Params.N}");
+           //LogWrite($"N={Params.N}");
+
         }
  
         public static BigInteger BalancedMultiply(BigInteger[] w)
@@ -94,7 +100,6 @@ namespace ArSeqProduct
                 len = j;
             }
             return w[0];
-
         }
     }
 }
