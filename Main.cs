@@ -25,7 +25,7 @@ namespace ArSeqProduct
             while (pass == 0 || !(string.IsNullOrEmpty(args)))
             {
                 if (pass == 0)
-                    args = " a= 4, d=2, n=40;";
+                    args = " a= 1, d=1, n=10000;n=1000000;";
                 pass++;
 
                 var command = ParseCommand(args, out tail);
@@ -54,7 +54,7 @@ namespace ArSeqProduct
                     continue;
                 }
                 Console.WriteLine("Multi-thread calculation");
-                m = a + Params.S * Params.H; // m is the first multiplicand for the  thread
+                m = a + Params.S* Params.H;
                 Thread[] threads = new Thread[p];
                 BigInteger[] results = new BigInteger[p];
 
