@@ -20,6 +20,8 @@ namespace ArSeqProduct
         public static int T { get; set; } = 1;
         // S – the straid S = D * P, where P is the number of the used processors. 
         public static BigInteger S { get; set; }
+        // E – the end of the last stride   A + (2 * H + 1) * S - D;
+        public static BigInteger E { get; set; } = BigInteger.Zero;
         // H – half of quotient - the number of multiplaiers in each task - 1
         public static BigInteger H { get; set; }
         // R -the first multiplicand in the reminder of elements

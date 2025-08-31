@@ -20,12 +20,15 @@ namespace ArSeqProduct
                 lock (logLock)
                 {
                     if (Params.R <= 0) break;
-                    n += Params.D;
+                    Params.E += Params.D;
                     Params.R--;
-                    m = Params.N;
+                    m = Params.E;
+
                 }
                 result *= m;
             }
+            lock (logLock) Console.WriteLine($"index={t},result={result}");
+            //even={Big.even}, odd={Big.odd}, all={Big.even * Big.odd}
             return result;
         }
         public static (BigInteger even, BigInteger odd) Worker2(int t, BigInteger m, Lock logLock)
@@ -53,6 +56,10 @@ namespace ArSeqProduct
                 Big.even *= m;
                 Big.odd *= (m + 1);
             }
+            lock (logLock) Console.WriteLine
+    ($"index={t},result={Big.even}");
+            //even={Big.even}, odd={Big.odd}, all={Big.even * Big.odd}
+
             return Big;
         }
     }

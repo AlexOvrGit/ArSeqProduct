@@ -64,7 +64,7 @@ namespace ArSeqProduct
 
         public static int CalcParams()
         {
-            BigInteger n = Params.N, d = Params.D, r; // a = Params.A, o = Params.O;
+            BigInteger n = Params.N, d = Params.D, r, a = Params.A;// o = Params.O;
            int p = Params.P;
            if (n < 3 * p) p = (int)n / 3; if (p < 1) p = 1;
 
@@ -73,10 +73,11 @@ namespace ArSeqProduct
         
            Params.H = h;
            Params.S = d * p;
-           Params.R = r;
-           Console.WriteLine($"S={Params.S}, H={Params.H}, R={Params.R}");
-           LogWrite($"S={Params.S}, H={Params.H}, R={Params.R}");
-           return p;
+            Params.E = a + l * d * p - d;
+            Params.R = r;
+            Console.WriteLine($"S={Params.S}, H={Params.H}, R={Params.R}, E={Params.E}");
+            LogWrite($"S={Params.S}, H={Params.H}, R={Params.R}, E={Params.E}");
+            return p;
            //if ((p == 1 || (n < 4 * p)) && o == 0) return 1;
            //Params.N -= (r * d);
            //Console.WriteLine($"N={Params.N}");
