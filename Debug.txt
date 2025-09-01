@@ -1,0 +1,25 @@
+CommandLineParser - Debugging
+Main 49   n+1 => n
+MainUtil 70   n+1 => n
+Parameters set: a=1, n=10000, d=1, t=1
+ 8 processors used out of 8
+S=8, H=624, R=8
+N=9992
+Multi-thread calculation
+All threads completed.
+ Worker's Time = 25ms
+BalancedMultiply 8 partial products together
+BalancedMultiply 8 partial products Time = 4ms
+Product = 2.84625968E+35659Count Time = 29ms, Output Time = 44ms---------------------
+Parameters set: a=1, n=1000000, d=1, t=1
+ 8 processors used out of 8
+S=8, H=62499, R=8
+N=999992
+Multi-thread calculation
+All threads completed.
+ Worker's Time = 56529ms
+BalancedMultiply 8 partial products together
+BalancedMultiply 8 partial products Time = 6667ms
+Product = 8.26393169E+5565708Count Time = 63196ms, Output Time = 1097413ms---------------------
+Enter key to exit
+
